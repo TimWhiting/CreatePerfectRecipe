@@ -3,3 +3,4 @@ data/db/*
 .ipynb_checkpoints/*
 ipynb/__pycache__/*
 ipynb/.ipynb_checkpoints/*
+*.pyc
