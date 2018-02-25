@@ -13,7 +13,7 @@
 4. We will compile the results and present them to the class.
 ## Tools
 - We will be programming/scripting in Python 3.6 using [Anaconda](https://www.anaconda.com/download/)
-- We will be using Jupyter Lab and Jupyter Notebooks from Anaconda where it makes sense
+- We will be using [Jupyter Lab and Jupyter Notebooks](http://jupyter.org/documentation) from Anaconda where it makes sense
 - We will be using [MongoDB](https://docs.mongodb.com/) for storing the data
 - We will be using [pymongo v 3.4](http://api.mongodb.com/python/3.4.0/) for interacting with MongoDB
 - We will be using [tensorflow](https://www.tensorflow.org/get_started/) for machine learning
