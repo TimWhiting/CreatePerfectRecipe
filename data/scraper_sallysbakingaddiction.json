@@ -1,0 +1,10 @@
+{"_id":"sallysbakingaddiction","startUrl":["https://sallysbakingaddiction.com"],
+  "selectors":[{"id":"category","type":"SelectorLink",
+  "selector":"li.menu-item.menu-item-40332 a",
+  "parentSelectors":["_root"],"multiple":true,"delay":0},
+{"id":"item","type":"SelectorLink","selector":"div.archivepost a",
+  "parentSelectors":["category","nextpage"],"multiple":true,"delay":0},
+{"id":"nextpage","type":"SelectorLink","selector":"a.next",
+  "parentSelectors":["category","nextpage"],"multiple":false,"delay":0},
+{"id":"ingredient","type":"SelectorText","selector":"ul:nth-of-type(1) li.ingredient",
+  "parentSelectors":["item"],"multiple":true,"regex":"","delay":0}]}
