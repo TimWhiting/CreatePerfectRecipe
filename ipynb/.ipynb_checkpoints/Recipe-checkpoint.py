@@ -1,7 +1,7 @@
-from Ingredient import Ingredient
+from Ingredient import *
 from bson.json_util import loads
 import json
- 
+   
 class Recipe:
     def __init__(self,name="",author="",ratings=None,ingredients=list()):
         self.name = name
