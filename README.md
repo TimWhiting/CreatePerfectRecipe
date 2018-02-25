@@ -20,7 +20,7 @@
 - We will be using [tensorflow](https://www.tensorflow.org/get_started/) for machine learning
 
 ## Repo Organization
-Organization will go as follows
+Organization will go as follows:
+Each folder will have a README.md with an explanation of what is in the folder and any subfolders
 - ipynb is the folder where all of our code will go (both jupyter notebooks and python scripts)
-- data/db and data/log is where the database is stored and is excluded using a .gitignore
-- data/raw is where the data from the scraper will go (.csv and .json files)
+- data is the folder where all data goes (database and scrapers)
