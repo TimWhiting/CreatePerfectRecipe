@@ -18,3 +18,9 @@
 - We will be using [MongoDB](https://docs.mongodb.com/) for storing the data
 - We will be using [pymongo v 3.4](http://api.mongodb.com/python/3.4.0/) for interacting with MongoDB
 - We will be using [tensorflow](https://www.tensorflow.org/get_started/) for machine learning
+
+## Repo Organization
+Organization will go as follows
+- ipynb is the folder where all of our code will go (both jupyter notebooks and python scripts)
+- data/db and data/log is where the database is stored and is excluded using a .gitignore
+- data/raw is where the data from the scraper will go (.csv and .json files)
