@@ -22,5 +22,5 @@
 ## Repo Organization
 Organization will go as follows:
 Each folder will have a README.md with an explanation of what is in the folder and any subfolders
-- ipynb is the folder where all of our code will go (both jupyter notebooks and python scripts)
+- python is the folder where all of our code will go (both jupyter notebooks and python scripts)
 - data is the folder where all data goes (database and scrapers)
