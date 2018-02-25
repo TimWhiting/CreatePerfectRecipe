@@ -7,8 +7,13 @@
   - Nutritional Value
   - Etc
 ## Phases
-1. We use the Chrome Extension WebScraper to get the raw data from recipe sites such as AllRecipes. 
+1. We use the Chrome Extension [WebScraper](http://webscraper.io/documentation) to get the raw data from recipe sites such as [AllRecipes](http://allrecipes.com/). 
 2. We will then run some algorithms on the data to format it into a common format that can be run through a machine learning algorithm.
-3. Finally we will train several machine learning algorithms (from tensorflow) on the data.
+3. Finally we will train several machine learning algorithms (from [tensorflow](https://www.tensorflow.org/get_started/)) on the data.
 4. We will compile the results and present them to the class.
-
+## Tools
+- We will be programming/scripting in Python 3.6 using [Anaconda](https://www.anaconda.com/download/)
+- We will be using Jupyter Lab and Jupyter Notebooks from Anaconda where it makes sense
+- We will be using [MongoDB](https://docs.mongodb.com/) for storing the data
+- We will be using [pymongo v 3.4](http://api.mongodb.com/python/3.4.0/) for interacting with MongoDB
+- We will be using [tensorflow](https://www.tensorflow.org/get_started/) for machine learning
