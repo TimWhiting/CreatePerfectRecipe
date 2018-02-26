@@ -2,5 +2,5 @@ data/log/*
 data/db/*
 .ipynb_checkpoints/*
 python/__pycache__/*
-python/.ipynb_checkpoints/*
+**/.ipynb_checkpoints/*
 *.pyc
