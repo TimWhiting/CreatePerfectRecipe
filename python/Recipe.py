@@ -23,4 +23,8 @@ class Recipe:
         self.ingredients.append(ingredient)
         
     def getJSON(self):
-        return loads(json.dumps(self,default=lambda o: o.__dict__))
+        return loads(json.dumps(self.__dict__))
+    
+    def fromJSON(self,jsonString):
+        self.__dict__ = json.loads(dumps(jsonString))
+        return self
