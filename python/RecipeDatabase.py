@@ -1,20 +1,31 @@
 from pymongo import MongoClient
 import csv
-from RecipeRaw import RecipeRaw
+from Recipe import *
+from Ingredient import *
+from RecipeRaw import *
+from bson.json_util import loads,dumps
+from JSONHelper import *
 
 client = MongoClient("mongodb://Jennings:#cookies1234567890!@45.56.50.200:50682/admin?authMechanism=SCRAM-SHA-1");
 db = client.recipes
 invalid_categories = ["Cookie Icing and Frosting" , "Cake Mix Cookies"]
 
+
+    
 class Database:
     def getRecipes(self):
-        return self.collection.find({})
+        recipes = self.collection.find({})
+        newRecipes = list()
+        for recipe in recipes:
+            recipesNew = decode_object(recipe)
+            newRecipes.append(recipesNew)
+        return newRecipes
     
     def clearDatabase(self):
-        self.collection.deleteMany({})
+        self.collection.delete_many({})
     
     def addRecipe(self,recipe):
-        self.collection.insert_one(recipe)
+        self.collection.insert_one(loads(json.dumps(recipe, cls=CustomEncoder)))
     
     
 class RawDatabase(Database):
@@ -31,13 +42,12 @@ class RawDatabase(Database):
                     print(",".join(row)+"\n")
                 else:
                     try:
-                        r = RecipeRaw(row)
+                        r = RecipeRawFromCSV(row)
                         if (r.category not in invalid_categories):
-                            self.collection.insert_one(r.getJSON())
+                            self.collection.insert_one(loads(json.dumps(r, cls=CustomEncoder)))
                     except:
                         pass
     
 class RecipeDatabase(Database):
-    
     def __init__(self):
         self.collection = db.recipes

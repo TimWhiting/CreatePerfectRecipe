@@ -1,11 +1,8 @@
 from Ingredient import *
-from bson.json_util import loads
-import json
    
 class Recipe:
-    def __init__(self,name="",author="",ratings=None,ingredients=list()):
+    def __init__(self,name="",ratings=None,ingredients=list()):
         self.name = name
-        self.author = author
         if ratings is None:
             self.ratings = [0 for i in range(5)]
         else:
@@ -21,10 +18,3 @@ class Recipe:
     def addIngredient(self,name,amount):
         ingredient = Ingredient(name,amount)
         self.ingredients.append(ingredient)
-        
-    def getJSON(self):
-        return loads(json.dumps(self.__dict__))
-    
-    def fromJSON(self,jsonString):
-        self.__dict__ = json.loads(dumps(jsonString))
-        return self
