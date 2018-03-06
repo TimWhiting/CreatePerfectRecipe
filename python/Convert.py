@@ -16,9 +16,10 @@ validIngredients.append(IngredientValue(["butter","margarine"],True,True,227))
 validIngredients.append(IngredientValue(["milk"],True,True,242))
 validIngredients.append(IngredientValue(["vanilla"],True,True,208))
 
+validIngredients.append(IngredientValue(["mix"],False,False,0))
 validIngredients.append(IngredientValue(["chocolate"],True,False,175))
 validIngredients.append(IngredientValue(["cocoa powder"],True,False,118))
-validIngredients.append(IngredientValue(["spice"],True,False,100))
+validIngredients.append(IngredientValue(["spice", "nutmeg","cinnamon"],True,False,100))
 validIngredients.append(IngredientValue(["baking powder"],True,False,230))
 validIngredients.append(IngredientValue(["baking soda"],True,False,230.4))
 validIngredients.append(IngredientValue(["brown sugar"],True,False,217))
@@ -102,9 +103,12 @@ def ConvertAllRecipes():
             #print(ingredient)
             ing = getIngredientFromString(ingredient)
             if ing is not None:
-                ingredientList.append(ing)
+                if "mix" in ing.name:
+                    badRecipe = True
+                else:
+                    ingredientList.append(ing)
             else:
-                badRecipe = True
+                badRecipe = False
         if badRecipe is False:
             recipeNew = Recipe(reciperaw.name,reciperaw.stars,ingredientList)
             newDatabase.addRecipe(recipeNew)
