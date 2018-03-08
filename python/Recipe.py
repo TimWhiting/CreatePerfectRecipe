@@ -21,16 +21,26 @@ class Recipe:
         self.ingredients.append(ingredient)
         
     def getInputVector(self):
-        vector = List()
+        vector = list()
+        totalWeight = 0
+        for ingred in self.ingredients:
+            totalWeight = totalWeight + ingred.amount
         for ing in validIngredients:
             for ingred in self.ingredients:
                 if ingred.name in ing.name:
-                    vector.append(ingred.amount)
+                    vector.append(ingred.amount/totalWeight)
                 else:
                     vector.append(0)
         return vector
     def getOutputVector(self):
-        return ratings
+        totalRatings = 0
+        newRatings = list()
+        for rat in self.ratings:
+            totalRatings = totalRatings + rat
+        for rat in self.ratings:
+            newRatings.append(rat/totalRatings)
+        return newRatings
+    
 def getInputVectorSize():
     return len(validIngredients)
         
