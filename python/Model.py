@@ -1,9 +1,8 @@
 import tensorflow as tf
-import numpy as np
 import os
-from pymongo import MongoClient
 from tqdm import tqdm, trange
 from Recipe import Recipe
+import RecipeDatabase
 
 
 class RecipeLearner:
@@ -34,23 +33,24 @@ class RecipeLearner:
         else:
             self.sess.run(tf.global_variables_initializer())
         epoch_iterator = trange(self.epochs)
+        recipes = RecipeDatabase()
         for e in epoch_iterator:
             current_sum = 0
             count = 0
-            #try:
-                #for recipe in batch:
-                    #try:
-                        #feed_dict = {self.x: recipe}
-                        #loss, _ = self.sess.run([self.loss, self.train], feed_dict=feed_dict)
-                        #count += 1
-                        #current_sum += loss
-                    #except Exception:
-                        #continue
-            #except Exception:
-                #continue
-            #finally:
-                #self.save_trained_model()
-                #epoch_iterator.set_description('Epoch {} average training loss: {}'.format(e, current_sum / count))
+            try:
+                for recipe in recipes.getRecipes():
+                    try:
+                        feed_dict = {self.x: recipe}
+                        loss, _ = self.sess.run([self.loss, self.train], feed_dict=feed_dict)
+                        count += 1
+                        current_sum += loss
+                    except Exception:
+                        continue
+            except Exception:
+                continue
+            finally:
+                self.save_trained_model()
+                epoch_iterator.set_description('Epoch {} average training loss: {}'.format(e, current_sum / count))
 
     def save_trained_model(self):
         self.saver.save(self.sess, os.path.join(self.model_directory, 'model'))
