@@ -12,31 +12,45 @@ validIngredients = list()
 validIngredients.append(IngredientValue(["egg"],True,True,1))
 validIngredients.append(IngredientValue(["oil"],True,True,218))
 validIngredients.append(IngredientValue(["water"],True,True,236.59))
-validIngredients.append(IngredientValue(["butter","margarine"],True,True,227))
+validIngredients.append(IngredientValue(["butter","margarine","shortening"],True,True,227))
+validIngredients.append(IngredientValue(["cream cheese","whipping cream","whipped","cream","creme"],True,True,227))#not sure
 validIngredients.append(IngredientValue(["milk"],True,True,242))
 validIngredients.append(IngredientValue(["vanilla"],True,True,208))
-
+validIngredients.append(IngredientValue(["vegetables","zucchini","pumpkin"],True,True,200))#not sure
+validIngredients.append(IngredientValue(["extracts","lemon extract","mint extract","mint","lemon"],True,True,200))#not sure
+validIngredients.append(IngredientValue(["food coloring"],True,True,208))
+validIngredients.append(IngredientValue(["fruit","raisin","raspberry","date","orange","cherries","cranberries","strawberries","grape","cherry","preserves","jam","apple"],True,True,200))#not sure
+#dry ingredients
+validIngredients.append(IngredientValue(["nuts","almond","peanut","pecan","walnut","nut"],True,False,100))#not sure
 validIngredients.append(IngredientValue(["mix"],False,False,0))
-validIngredients.append(IngredientValue(["chocolate"],True,False,175))
-validIngredients.append(IngredientValue(["cocoa powder"],True,False,118))
-validIngredients.append(IngredientValue(["spice", "nutmeg","cinnamon"],True,False,100))
+validIngredients.append(IngredientValue(["chocolate"],True,False,175))#not sure
+validIngredients.append(IngredientValue(["cocoa powder"],True,False,118))#not sure
+validIngredients.append(IngredientValue(["corn starch","cornstarch"],True,False,118))#not sure
+validIngredients.append(IngredientValue(["spice", "nutmeg", "cinnamon","ginger","clove","cardamom"],True,False,100))#not sure
 validIngredients.append(IngredientValue(["baking powder"],True,False,230))
 validIngredients.append(IngredientValue(["baking soda"],True,False,230.4))
 validIngredients.append(IngredientValue(["brown sugar"],True,False,217))
+validIngredients.append(IngredientValue(["syrups","molasses","honey","corn syrup","maple syrup"],True,True,270)) #not sure
 validIngredients.append(IngredientValue(["powdered sugar","confectioner"],True,False,128))
+validIngredients.append(IngredientValue(["oat","granola"],True,False,100))#not sure
+validIngredients.append(IngredientValue(["graham cracker","crisp rice","crispy rice"],True,False,100))#not sure
+validIngredients.append(IngredientValue(["coconut"],True,False,100))#not sure
 validIngredients.append(IngredientValue(["flour"],True,False,128))
 validIngredients.append(IngredientValue(["sugar"],True,False,201))
 validIngredients.append(IngredientValue(["salt"],True,False,284.14247))
 
 validUnits = list()
-validUnits.append(Unit("c",1))
-validUnits.append(Unit("T",1/16))
-validUnits.append(Unit("t",1/48))
+validUnits.append(Unit(["cup","c"],1))
+validUnits.append(Unit(["tablespoons"],1/16))
+validUnits.append(Unit(["teaspoons"],1/48))
+validUnits.append(Unit(["T"],1/16))
+validUnits.append(Unit(["t"],1/16))
 
 def convertAmount(value,ingredient,unit = "c"):
     for validUnit in validUnits:
-        if unit in validUnit.name:
-            return value*ingredient.gramsPcup*validUnit.conversion
+        for name in validUnit.name:
+            if name in unit:
+                return value*ingredient.gramsPcup*validUnit.conversion
   
 def findName(string):
     ingredientString = string.lower()
@@ -52,7 +66,7 @@ def getIngredientFromString(string):
     if ingredient is not None:
         ing.name = ingredient.name[0]
         ing.amount = findAmount(string,ingredient)
-        return ing  
+        return ing
     print("Ingredient doesn't match {}".format(string))
 
 def findAmount(string,ingredient):
@@ -106,7 +120,13 @@ def ConvertAllRecipes():
                 if "mix" in ing.name:
                     badRecipe = True
                 else:
-                    ingredientList.append(ing)
+                    Found = False
+                    for ingred in ingredientList: #say if a recipe calls for butter and shortening
+                        if ingred.name in ing.name:
+                            ingred.amount = ingred.amount + ing.amount
+                            Found = True
+                    if not Found:
+                        ingredientList.append(ing)
             else:
                 badRecipe = False
         if badRecipe is False:
