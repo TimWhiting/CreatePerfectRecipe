@@ -3,10 +3,11 @@ import numpy as np
 import os
 from pymongo import MongoClient
 from tqdm import tqdm, trange
+from Recipe import Recipe
 
 
 class RecipeLearner:
-    input_size = 10
+    input_size = getInputVectorSize()
     output_size = 5
     epochs = 100
     model_directory = './learned_model'
@@ -14,7 +15,7 @@ class RecipeLearner:
     def __init__(self):
         self.sess = tf.Session()
         self.x = tf.placeholder(tf.float64, [1, self.input_size], name='x')
-        layer0 = tf.layers.dense(self.x, 16, activation=tf.nn.relu, name='layer0')
+        layer0 = tf.layers.dense(self.x, 15, activation=tf.nn.relu, name='layer0')
         layer1 = tf.layers.dense(layer0, 12, activation=tf.nn.relu, name='layer1')
         layer2 = tf.layers.dense(layer1, 8, activation=tf.nn.relu, name='layer2')
         layer3 = tf.layers.dense(layer2, 5, activation=tf.nn.relu, name='layer3')

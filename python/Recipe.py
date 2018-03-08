@@ -1,4 +1,5 @@
 from Ingredient import *
+from ValidIngredients import *
    
 class Recipe:
     def __init__(self,name="",ratings=None,ingredients=list()):
@@ -18,3 +19,19 @@ class Recipe:
     def addIngredient(self,name,amount):
         ingredient = Ingredient(name,amount)
         self.ingredients.append(ingredient)
+        
+    def getInputVector(self):
+        vector = List()
+        for ing in validIngredients:
+            for ingred in self.ingredients:
+                if ingred.name in ing.name:
+                    vector.append(ingred.amount)
+                else:
+                    vector.append(0)
+        return vector
+    def getOutputVector(self):
+        return ratings
+def getInputVectorSize():
+    return len(validIngredients)
+        
+    
