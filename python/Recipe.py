@@ -22,15 +22,28 @@ class Recipe:
         
     def getInputVector(self):
         vector = list()
+        for ing in validIngredients:
+            found = False
+            for ingred in self.ingredients:
+                if ingred.name in ing.name:
+                    found = True
+                    vector.append(ingred.amount)
+            if not found:
+                vector.append(0)
+        return vector
+    def getInputVectorNormalized(self):
+        vector = list()
         totalWeight = 0
         for ingred in self.ingredients:
             totalWeight = totalWeight + ingred.amount
         for ing in validIngredients:
+            found = False
             for ingred in self.ingredients:
                 if ingred.name in ing.name:
+                    found = True
                     vector.append(ingred.amount/totalWeight)
-                else:
-                    vector.append(0)
+            if not found:
+                vector.append(0)
         return vector
     def getOutputVector(self):
         totalRatings = 0

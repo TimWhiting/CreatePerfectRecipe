@@ -4,10 +4,8 @@ from RecipeDatabase import *
 from RecipeRaw import *
 from Recipe import *
 from ValidIngredients import *
-class Unit:
-    def __init__(self,name="",conversion = 1):
-        self.name = name
-        self.conversion = conversion
+from Units import *
+
      
 def convertAmount(value,ingredient,unit = "c"):
     for validUnit in validUnits:

@@ -1,7 +1,7 @@
 import json
 from bson.json_util import loads,dumps
 from RecipeRaw import *
-from Recipe import *
+from Recipe import Recipe
 from Ingredient import *
 
 def decode_object(o):
@@ -32,17 +32,19 @@ def decode_object(o):
         return r
     elif '__Recipe__' in o:
         r = Recipe()
-        r.name = o['name']
-        r.ratings = o['ratings']
+        recipe = o['__Recipe__']
+        r.name = recipe['name']
+        r.ratings = recipe['ratings']
         r.ingredients = list()
-        for ing in o['ingredients']:
+        for ing in recipe['ingredients']:
             r.ingredients.append(decode_object(ing))
         return r
     elif '__Ingredient__' in o:
-        r = Ingredient()
-        r.name = o['name']
-        r.amount = o['amount']
-        return r
+        i = Ingredient()
+        ing = o['__Ingredient__']
+        i.name = ing['name']
+        i.amount = ing['amount']
+        return i
     elif 'ingredients' in o:
         return o['ingredients']
     elif 'instructions' in o:
