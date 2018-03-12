@@ -23,12 +23,14 @@ def findName(string):
     
 def getIngredientFromString(string):
     ing = Ingredient()
+    if ":" in string:
+        return None #this is for headings
     ingredient = findName(string)
     if ingredient is not None:
         ing.name = ingredient.name[0]
         ing.amount = findAmount(string,ingredient)
         return ing
-    print("Ingredient doesn't match {}".format(string))
+    print("Ingredient doesn't match " + string)
 
 def findAmount(string,ingredient):
     value = None
@@ -75,6 +77,8 @@ def ConvertAllRecipes():
         badRecipe = False
         ingredientList = list()
         for ingredient in reciperaw.ingredients:
+            if ingredient is "":
+                continue #this is if the ingredient string is null
             #print(ingredient)
             ing = getIngredientFromString(ingredient)
             if ing is not None:

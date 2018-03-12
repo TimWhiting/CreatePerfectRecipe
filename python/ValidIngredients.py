@@ -4,7 +4,9 @@ validIngredients = list()
 validIngredients.append(IngredientValue(["egg"],True,True,60))
 validIngredients.append(IngredientValue(["oil"],True,True,218))
 validIngredients.append(IngredientValue(["water"],True,True,236.59))
-validIngredients.append(IngredientValue(["butter","margarine","shortening"],True,True,227))
+validIngredients.append(IngredientValue(["butter","margarine","shortening", "lard"],True,True,227))
+validIngredients.append(IngredientValue(["grains","oats","cornflakes", "granola", "flaxseed", "anise"],True,True,100))#approximately
+validIngredients.append(IngredientValue(["candy", "lollipop", "marshmallows", "caramels", "licorice", "dulce de leche"],True,True,200))#not sure on gms/cup for these
 validIngredients.append(IngredientValue(["cream cheese","whipping cream","whipped","cream","creme"],True,True,227))#not sure
 validIngredients.append(IngredientValue(["milk"],True,True,242))
 validIngredients.append(IngredientValue(["vanilla"],True,True,208))
@@ -18,11 +20,11 @@ validIngredients.append(IngredientValue(["mix"],False,False,0))
 validIngredients.append(IngredientValue(["chocolate"],True,False,175))#not sure
 validIngredients.append(IngredientValue(["cocoa powder"],True,False,118))#not sure
 validIngredients.append(IngredientValue(["corn starch","cornstarch"],True,False,118))#not sure
-validIngredients.append(IngredientValue(["spice", "nutmeg", "cinnamon","ginger","clove","cardamom"],True,False,100))#not sure
+validIngredients.append(IngredientValue(["spice", "nutmeg", "cinnamon","ginger","clove","cardamom", "pepper", "pepper", "rosemary"],True,False,100))#not sure
 validIngredients.append(IngredientValue(["baking powder"],True,False,230))
 validIngredients.append(IngredientValue(["baking soda"],True,False,230.4))
 validIngredients.append(IngredientValue(["brown sugar"],True,False,217))
-validIngredients.append(IngredientValue(["syrups","molasses","honey","corn syrup","maple syrup"],True,True,270)) #not sure
+validIngredients.append(IngredientValue(["syrup","molasses","honey","corn syrup","maple syrup"],True,True,270)) #not sure
 validIngredients.append(IngredientValue(["powdered sugar","confectioner"],True,False,128))
 validIngredients.append(IngredientValue(["oat","granola"],True,False,100))#not sure
 validIngredients.append(IngredientValue(["graham cracker","crisp rice","crispy rice"],True,False,100))#not sure
