@@ -1,4 +1,5 @@
 from Ingredient import *
+from ValidIngredients import *
    
 class Recipe:
     def __init__(self,name="",ratings=None,ingredients=list()):
