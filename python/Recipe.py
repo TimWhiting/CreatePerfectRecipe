@@ -1,4 +1,5 @@
 from Ingredient import *
+from ValidIngredients import *
    
 class Recipe:
     def __init__(self,name="",ratings=None,ingredients=list()):
@@ -22,13 +23,14 @@ class Recipe:
     def getInputVector(self):
         vector = list()
         for ing in validIngredients:
-            found = False
-            for ingred in self.ingredients:
-                if ingred.name in ing.name:
-                    found = True
-                    vector.append(ingred.amount)
-            if not found:
-                vector.append(0)
+            if ing.used:
+                found = False
+                for ingred in self.ingredients:
+                    if ingred.name in ing.name:
+                        found = True
+                        vector.append(ingred.amount)
+                if not found:
+                    vector.append(0)
         return vector
     def getInputVectorNormalized(self):
         vector = list()
@@ -36,13 +38,14 @@ class Recipe:
         for ingred in self.ingredients:
             totalWeight = totalWeight + ingred.amount
         for ing in validIngredients:
-            found = False
-            for ingred in self.ingredients:
-                if ingred.name in ing.name:
-                    found = True
-                    vector.append(ingred.amount/totalWeight)
-            if not found:
-                vector.append(0)
+            if ing.used:
+                found = False
+                for ingred in self.ingredients:
+                    if ingred.name in ing.name:
+                        found = True
+                        vector.append(ingred.amount/totalWeight)
+                if not found:
+                    vector.append(0)
         return vector
     def getOutputVector(self):
         totalRatings = 0

@@ -51,3 +51,25 @@ class RawDatabase(Database):
 class RecipeDatabase(Database):
     def __init__(self):
         self.collection = db.recipes
+        self.columnMultipliers = []
+        self.normalizedRows = [recipe.getInputVectorNormalized() for recipe in self.getRecipes()]
+        self.fullyNormalizedRecipes = []
+    
+    def cols(self, columnNumber):
+        return [recipe[columnNumber] for recipe in self.normalizedRows]
+    
+    def computeColumnMultipliers(self):
+        for i in range(0, len(self.normalizedRows[0])):
+            min0 = min(self.cols(i))
+            max0 = max(self.cols(i))
+            self.columnMultipliers.append([(min0), (max0 - min0)])
+    
+    def normalizeColumns(self):
+        for i in range(0, len(self.normalizedRows)):
+            temp = []
+            for j in range(0, len(self.normalizedRows[0])):
+                try:
+                    temp.append((self.normalizedRows[i][j] - self.columnMultipliers[j][0]) / (self.columnMultipliers[j][1]))
+                except:
+                    print j
+            self.fullyNormalizedRecipes.append(temp)
