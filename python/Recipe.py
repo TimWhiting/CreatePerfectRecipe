@@ -21,7 +21,7 @@ class Recipe:
         self.ingredients.append(ingredient)
         
     def getInputVector(self):
-        vector = list()
+        vector = []
         for ing in validIngredients:
             if ing.used:
                 found = False
@@ -33,7 +33,7 @@ class Recipe:
                     vector.append(0)
         return vector
     def getInputVectorNormalized(self):
-        vector = list()
+        vector = []
         totalWeight = 0
         for ingred in self.ingredients:
             totalWeight = totalWeight + ingred.amount
@@ -49,7 +49,7 @@ class Recipe:
         return vector
     def getOutputVector(self):
         totalRatings = 0
-        newRatings = list()
+        newRatings = []
         for rat in self.ratings:
             totalRatings = totalRatings + rat
         for rat in self.ratings:
