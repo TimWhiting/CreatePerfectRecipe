@@ -94,6 +94,8 @@ def ConvertAllRecipes():
                         ingredientList.append(ing)
             else:
                 badRecipe = False
+        if len(ingredientList) == 0:
+            badRecipe = True
         if badRecipe is False:
             recipeNew = Recipe(reciperaw.name,reciperaw.stars,ingredientList)
             newDatabase.addRecipe(recipeNew)

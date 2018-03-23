@@ -71,5 +71,5 @@ class RecipeDatabase(Database):
                 try:
                     temp.append((self.normalizedRows[i][j] - self.columnMultipliers[j][0]) / (self.columnMultipliers[j][1]))
                 except:
-                    print j
+                    print(j)
             self.fullyNormalizedRecipes.append(temp)
