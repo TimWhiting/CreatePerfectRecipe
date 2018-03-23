@@ -54,6 +54,7 @@ class RecipeDatabase(Database):
         self.columnMultipliers = []
         self.normalizedRows = [recipe.getInputVectorNormalized() for recipe in self.getRecipes()]
         self.fullyNormalizedRecipes = []
+        self.computeColumnMultipliers()
     
     def cols(self, columnNumber):
         return [recipe[columnNumber] for recipe in self.normalizedRows]
@@ -73,3 +74,10 @@ class RecipeDatabase(Database):
                 except:
                     print(j)
             self.fullyNormalizedRecipes.append(temp)
+    
+    def getNormalizedInputs(self, inputs):
+        temp = []
+        for j in range(0, len(inputs)):
+            temp.append((inputs[j] - self.columnMultipliers[j][0]) / (self.columnMultipliers[j][1]))
+            
+            

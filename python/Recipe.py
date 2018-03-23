@@ -57,6 +57,10 @@ class Recipe:
         return newRatings
     
 def getInputVectorSize():
-    return len(validIngredients)
+    size = 0
+    for ing in validIngredients:
+        if ing.used:
+            size = size + 1
+    return size
         
     
