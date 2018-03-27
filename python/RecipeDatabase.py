@@ -57,7 +57,7 @@ class RecipeDatabase(Database):
         self.computeColumnMultipliers()
     
     def cols(self, columnNumber):
-        return [recipe[columnNumber] for recipe in self.normalizedRows]
+        return [recipe[columnNumber] for recipe in self.normalizedRows]        
     
     def computeColumnMultipliers(self):
         for i in range(0, len(self.normalizedRows[0])):
@@ -79,5 +79,11 @@ class RecipeDatabase(Database):
         temp = []
         for j in range(0, len(inputs)):
             temp.append((inputs[j] - self.columnMultipliers[j][0]) / (self.columnMultipliers[j][1]))
+            
+    def deNormalizeRow(self, inputRow):
+        denormalizedRow = []
+        for i in range(0, len(inputRow)):
+            denormalizedRow.append((inputRow * self.columnMultipliers[i][1]) + self.columnMultipliers[i][0])
+        
             
             

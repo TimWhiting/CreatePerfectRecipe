@@ -58,11 +58,11 @@ class Recipe:
             newRatings.append(rat/totalRatings)
         return newRatings
     
-def getInputVectorSize():
-    size = 0
-    for ing in validIngredients:
-        if ing.used:
-            size = size + 1
-    return size
+    def getInputVectorSize():
+        size = 0
+        for ing in validIngredients:
+            if ing.used:
+                size = size + 1
+        return size
         
     
