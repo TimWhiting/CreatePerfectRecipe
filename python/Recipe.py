@@ -32,6 +32,7 @@ class Recipe:
                 if not found:
                     vector.append(0)
         return vector
+
     def getInputVectorNormalized(self):
         vector = []
         totalWeight = 0
@@ -47,6 +48,7 @@ class Recipe:
                 if not found:
                     vector.append(0)
         return vector
+
     def getOutputVector(self):
         totalRatings = 0
         newRatings = []
