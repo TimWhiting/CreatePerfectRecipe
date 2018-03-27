@@ -32,6 +32,7 @@ class Recipe:
                 if not found:
                     vector.append(0)
         return vector
+    
     def getInputVectorNormalized(self):
         vector = []
         totalWeight = 0
@@ -47,6 +48,7 @@ class Recipe:
                 if not found:
                     vector.append(0)
         return vector
+    
     def getOutputVector(self):
         totalRatings = 0
         newRatings = []
@@ -56,11 +58,11 @@ class Recipe:
             newRatings.append(rat/totalRatings)
         return newRatings
     
-def getInputVectorSize():
-    size = 0
-    for ing in validIngredients:
-        if ing.used:
-            size = size + 1
-    return size
+    def getInputVectorSize():
+        size = 0
+        for ing in validIngredients:
+            if ing.used:
+                size = size + 1
+        return size
         
     
