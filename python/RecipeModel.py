@@ -41,6 +41,7 @@ class RecipeLearner:
         sess.run(tf.global_variables_initializer())
 
         recipes = RecipeDatabase()
+        recipes.computeColumnMultipliers()
         for i in range(10):
             current_sum = 0
             count = 0
@@ -59,7 +60,7 @@ class RecipeLearner:
                     feature_batch = []
                     label_batch = []
                 else:
-                    feature_batch.append(recipe.getInputVectorNormalized())
+                    feature_batch.append(recipes.getNormalizedInputs(recipe.getInputVectorNormalized()))
                     label_batch.append(recipe.getOutputVector())
                     batch_count += 1
             if len(feature_batch) > 0:

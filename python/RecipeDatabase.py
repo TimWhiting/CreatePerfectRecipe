@@ -79,11 +79,10 @@ class RecipeDatabase(Database):
         temp = []
         for j in range(0, len(inputs)):
             temp.append((inputs[j] - self.columnMultipliers[j][0]) / (self.columnMultipliers[j][1]))
+        return temp
             
     def deNormalizeRow(self, inputRow):
         denormalizedRow = []
         for i in range(0, len(inputRow)):
             denormalizedRow.append((inputRow * self.columnMultipliers[i][1]) + self.columnMultipliers[i][0])
-        
-            
-            
+        return denormalizedRow
