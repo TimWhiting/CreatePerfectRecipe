@@ -35,17 +35,21 @@ class RecipeLearner:
         cost = tf.multiply(diff, diff)
         step = tf.train.GradientDescentOptimizer(0.1).minimize(cost)
 
-        loss = tf.reduce_sum(tf.abs(output - forward1))
+        loss = tf.losses.mean_squared_error(output, forward1)
 
         sess = tf.InteractiveSession()
         sess.run(tf.global_variables_initializer())
 
         recipes = RecipeDatabase()
         recipes.computeColumnMultipliers()
-        for i in range(10):
+        last_loss = 1
+        diff = 1
+        i = 0
+        # for i in range(10):
+        while diff > 0.001:
             current_sum = 0
             count = 0
-            batch_size = 10
+            batch_size = 1
             batch_count = 0
             feature_batch = []
             label_batch = []
@@ -56,6 +60,7 @@ class RecipeLearner:
                     result = sess.run(loss, feed_dict=feed_dict)
                     current_sum += result
                     count += 1
+                    print("Batch", count, " loss:", result)
                     batch_count = 0
                     feature_batch = []
                     label_batch = []
@@ -69,6 +74,10 @@ class RecipeLearner:
                 result = sess.run(loss, feed_dict=feed_dict)
                 current_sum += result
                 count += 1
+                print("Batch", count, " loss:", result)
+            diff = abs(last_loss - current_sum / count)
+            last_loss = current_sum / count
+            i += 1
             print("Average accuracy for Epoch", i, ":", current_sum / count)
 
 
