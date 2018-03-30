@@ -9,7 +9,7 @@ def sigma(x):
 def sigmaprime(x):
     return tf.multiply(sigma(x), tf.subtract(tf.constant(1.0), sigma(x)))
 
-class RecipeLearner:
+class RatingLearner:
     output_size = getInputVectorSize()
     input_size = 5
     nodes = 30
@@ -82,7 +82,7 @@ class RecipeLearner:
 
 
 def main():
-    recipeLearner = RecipeLearner()
+    ratingLearner = RatingLearner()
 
 
 if __name__ == '__main__':
