@@ -12,6 +12,7 @@ def sigmaprime(x):
 class RecipeLearner:
     input_size = getInputVectorSize()
     output_size = 5
+    layers = 1
     nodes = 30
 
     def __init__(self):
@@ -19,29 +20,36 @@ class RecipeLearner:
         output = tf.placeholder(tf.float32, [None, self.output_size])
 
         # Setup weights and layers
-        w0 = tf.Variable(tf.truncated_normal([self.input_size, self.nodes]))
-        layer0 = tf.Variable(tf.truncated_normal([1, self.nodes]))
-        w1 = tf.Variable(tf.truncated_normal([self.nodes, self.output_size]))
-        layer1 = tf.Variable(tf.truncated_normal([1, self.output_size]))
+        w_in = tf.Variable(tf.truncated_normal([self.input_size, self.nodes]))
+        layers = []
+        weights = []
+        for layer in range(self.layers):
+            layers.append(tf.Variable(tf.truncated_normal([1, self.nodes])))
+            if layer != self.layers - 1:
+                weights.append(tf.Variable(tf.truncated_normal([self.nodes, self.nodes])))
+        w_out = tf.Variable(tf.truncated_normal([self.nodes, self.output_size]))
+        layer_out = tf.Variable(tf.truncated_normal([1, self.output_size]))
 
         # Run forward step
-        z0 = tf.add(tf.matmul(input, w0), layer0)
-        forward0 = sigma(z0)
-        z1 = tf.add(tf.matmul(forward0, w1), layer1)
-        forward1 = sigma(z1)
+        z0 = tf.add(tf.matmul(input, w_in), layers[0])
+        for i in range(self.layers):
+            forward = sigma(z0)
+            if i != self.layers - 1:
+                z0 = tf.add(tf.matmul(layers[i], weights[i]), layers[i+1])
+        z_out = tf.add(tf.matmul(forward, w_out), layer_out)
+        forward_out = sigma(z_out)
 
         # Back propagate
-        diff = tf.subtract(forward1, output)
+        diff = tf.subtract(forward_out, output)
         cost = tf.multiply(diff, diff)
         step = tf.train.GradientDescentOptimizer(0.1).minimize(cost)
 
-        loss = tf.losses.mean_squared_error(output, forward1)
+        loss = tf.losses.mean_squared_error(output, forward_out)
 
         sess = tf.InteractiveSession()
         sess.run(tf.global_variables_initializer())
 
         recipes = RecipeDatabase()
-        recipes.computeColumnMultipliers()
         last_loss = 1
         diff = 1
         i = 0
