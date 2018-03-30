@@ -12,13 +12,14 @@ def sigmaprime(x):
 class RatingLearner:
     output_size = getInputVectorSize()
     input_size = 5
-    layers = 1
-    nodes = 30
 
-    def __init__(self):
+    def __init__(self, l=1, n=30):
+        self.layers = l
+        self.nodes = n
+
+    def train(self):
         input = tf.placeholder(tf.float32, [None, self.input_size])
         output = tf.placeholder(tf.float32, [None, self.output_size])
-
         # Setup weights and layers
         w_in = tf.Variable(tf.truncated_normal([self.input_size, self.nodes]))
         layers = []
@@ -90,7 +91,10 @@ class RatingLearner:
 
 
 def main():
-    ratingLearner = RatingLearner()
+    layers = input("How many layers?")
+    nodes = input("How many nodes per layer?")
+    ratingLearner = RatingLearner(layers, nodes)
+    ratingLearner.train()
 
 
 if __name__ == '__main__':
