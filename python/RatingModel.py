@@ -10,8 +10,8 @@ def sigmaprime(x):
     return tf.multiply(sigma(x), tf.subtract(tf.constant(1.0), sigma(x)))
 
 class RecipeLearner:
-    input_size = getInputVectorSize()
-    output_size = 5
+    output_size = getInputVectorSize()
+    input_size = 5
     nodes = 30
 
     def __init__(self):
@@ -65,8 +65,8 @@ class RecipeLearner:
                     feature_batch = []
                     label_batch = []
                 else:
-                    feature_batch.append(recipes.getNormalizedInputs(recipe.getInputVectorNormalized()))
-                    label_batch.append(recipe.getOutputVector())
+                    feature_batch.append(recipe.getOutputVector())
+                    label_batch.append(recipes.getNormalizedInputs(recipe.getInputVectorNormalized()))
                     batch_count += 1
             if len(feature_batch) > 0:
                 feed_dict = {input: feature_batch, output: label_batch}
