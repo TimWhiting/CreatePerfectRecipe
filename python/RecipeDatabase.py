@@ -54,7 +54,8 @@ class RecipeDatabase(Database):
         self.columnMultipliers = []
         self.normalizedRows = [recipe.getInputVectorNormalized() for recipe in self.getRecipes()]
         self.fullyNormalizedRecipes = []
-        self.computeColumnMultipliers()
+        if len(self.normalizedRows) > 0:
+            self.computeColumnMultipliers()
     
     def cols(self, columnNumber):
         return [recipe[columnNumber] for recipe in self.normalizedRows]        
