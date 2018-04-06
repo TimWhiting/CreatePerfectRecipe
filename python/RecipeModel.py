@@ -91,8 +91,8 @@ class RecipeLearner:
 
 
 def main():
-    layers = input("How many layers?")
-    nodes = input("How many nodes per layer?")
+    layers = input("How many layers? ")
+    nodes = input("How many nodes per layer? ")
     recipeLearner = RecipeLearner(int(layers), int(nodes))
     recipeLearner.train()
 
