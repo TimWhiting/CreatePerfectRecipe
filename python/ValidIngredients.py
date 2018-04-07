@@ -3,7 +3,7 @@ from Units import *
 validIngredients = list()
 validIngredients.append(IngredientValue(["egg"],True,True,60))
 validIngredients.append(IngredientValue(["oil"],True,True,218))
-validIngredients.append(IngredientValue(["water"],True,True,236.59))
+validIngredients.append(IngredientValue(["water"],False,True,236.59))
 validIngredients.append(IngredientValue(["butter","margarine","shortening", "lard"],True,True,227))
 validIngredients.append(IngredientValue(["grains","oats","cornflakes", "granola", "flaxseed", "anise"],True,True,100))#approximately
 validIngredients.append(IngredientValue(["candy", "lollipop", "marshmallows", "caramels", "licorice", "dulce de leche", "toffee"],True,True,200))#not sure on gms/cup for these
@@ -16,7 +16,7 @@ validIngredients.append(IngredientValue(["food coloring"],True,True,208))
 validIngredients.append(IngredientValue(["fruit","raisin","raspberry","date","orange","cherries","cranberries","strawberries","grape","cherry","preserves","jam","apple"],True,True,200))#not sure
 #dry ingredients
 validIngredients.append(IngredientValue(["nuts","almond","peanut","pecan","walnut","nut"],True,False,100))#not sure
-validIngredients.append(IngredientValue(["mix"],False,False,0))
+validIngredients.append(IngredientValue(["mix"],False,False,100))
 validIngredients.append(IngredientValue(["chocolate"],True,False,175))#not sure
 validIngredients.append(IngredientValue(["cocoa powder"],True,False,118))#not sure
 validIngredients.append(IngredientValue(["corn starch","cornstarch"],True,False,118))#not sure

@@ -45,7 +45,7 @@ class RatingLearner:
         cost = tf.multiply(diff, diff)
         step = tf.train.GradientDescentOptimizer(0.1).minimize(cost)
 
-        loss = tf.losses.mean_squared_error(output, forward1)
+        loss = tf.losses.mean_squared_error(output, forward_out)
 
         sess = tf.InteractiveSession()
         sess.run(tf.global_variables_initializer())
@@ -93,6 +93,7 @@ class RatingLearner:
 def main():
     layers = input("How many layers?")
     nodes = input("How many nodes per layer?")
+
     ratingLearner = RatingLearner(int(layers), int(nodes))
     ratingLearner.train()
 
