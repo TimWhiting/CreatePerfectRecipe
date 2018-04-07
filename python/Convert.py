@@ -6,7 +6,26 @@ from Recipe import *
 from ValidIngredients import *
 from Units import *
 
-     
+
+def getAmount(ingredient,amount):
+    amt = convertBackAmount(ingredient,amount, "c")
+    if amt > 1 / 4:
+        return "{0:.2f} cups/units".format(amt)
+    else:
+        amt = convertBackAmount(ingredient,amount, "T")
+        if amt > 1 / 2:
+            return "{0:.2f} Tablespoons".format(amt)
+        else:
+            amt = convertBackAmount(ingredient,amount, "t")
+            return "{0:.2f} teaspoons".format(amt)
+
+
+def convertBackAmount(ingredient, value, unit="c"):
+    for validUnit in validUnits:
+        for name in validUnit.name:
+            if name in unit:
+                return (value / ingredient.gramsPcup) / validUnit.conversion
+
 def convertAmount(value,ingredient,unit = "c"):
     for validUnit in validUnits:
         for name in validUnit.name:

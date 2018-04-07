@@ -52,11 +52,14 @@ class RecipeDatabase(Database):
     def __init__(self):
         self.collection = db.recipes
         self.columnMultipliers = []
+        self.columnOutputMultipliers = []
         self.normalizedRows = [recipe.getInputVectorNormalized() for recipe in self.getRecipes()]
+        self.normalizedOutputRows = [recipe.getOutputVector() for recipe in self.getRecipes()]
         self.fullyNormalizedRecipes = []
         self.allRatings = [recipe.ratings for recipe in self.getRecipes()]
         if len(self.normalizedRows) > 0:
             self.computeColumnMultipliers()
+            self.computeColumnOutputMultipliers()
     
     def cols(self, columnNumber):
         return [recipe[columnNumber] for recipe in self.normalizedRows]        
@@ -66,6 +69,12 @@ class RecipeDatabase(Database):
             min0 = min(self.cols(i))
             max0 = max(self.cols(i))
             self.columnMultipliers.append([(min0), (max0 - min0)])
+
+    def computeColumnOutputMultipliers(self):
+        for i in range(0, len(self.normalizedOutputRows[0])):
+            min0 = min(self.cols(i))
+            max0 = max(self.cols(i))
+            self.columnOutputMultipliers.append([(min0), (max0 - min0)])
     
     def normalizeColumns(self):
         for i in range(0, len(self.normalizedRows)):
@@ -81,6 +90,12 @@ class RecipeDatabase(Database):
         temp = []
         for j in range(0, len(inputs)):
             temp.append((inputs[j] - self.columnMultipliers[j][0]) / (self.columnMultipliers[j][1]))
+        return temp
+
+    def getNormalizedOutputs(self, outputs):
+        temp = []
+        for j in range(0, len(outputs)):
+            temp.append((outputs[j] - self.columnOutputMultipliers[j][0]) / (self.columnOutputMultipliers[j][1]))
         return temp
             
     def deNormalizeRow(self, inputRow):
