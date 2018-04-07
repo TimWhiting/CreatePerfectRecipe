@@ -152,6 +152,7 @@ class RecipeLearner:
             labels = [0 for i in range(self.output_size)]
             feed_dict = {self.input:[self.recipes.getNormalizedInputs(recipe.getInputVectorNormalized())],self.output: [labels]}
             values = self.sess.run(self.diff, feed_dict=feed_dict)[0]
+            values = recipe.getOutputVector()
             rating = values[0]*1 + values[1]*2 + values[2]*3 + values[3]*4 + values[4]*5
             if rating > bestRating:
                 bestRating = rating
@@ -220,8 +221,8 @@ def main():
     # nodes = input("How many nodes per layer?")
     # recipeLearner = RecipeLearner((int)layers, (int)nodes)
     # (error, numepochs) = recipeLearner.train()
-    getRandomRecipe()
-    #getRecipes()
+    #getRandomRecipe()
+    getRecipes()
     # runCSVDataCollection()
     # runCSVDataInvertedCollection()
 

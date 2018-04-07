@@ -1,20 +1,20 @@
-egg 1.00 cups/units
-oil 0.00 teaspoons
-butter 1.25 cups/units
+egg 2.00 cups/units
+oil 0.50 cups/units
+butter 1.75 cups/units
 grains 0.00 teaspoons
 candy 0.00 teaspoons
 cream cheese 0.00 teaspoons
-milk 0.00 teaspoons
-vanilla 0.69 cups/units
-vegetables 1.50 cups/units
+milk 1.00 cups/units
+vanilla 3.00 Tablespoons
+vegetables 0.00 teaspoons
 extracts 0.00 teaspoons
 food coloring 0.00 teaspoons
 fruit 0.00 teaspoons
 nuts 0.00 teaspoons
 chocolate 0.00 teaspoons
-cocoa powder 0.00 teaspoons
+cocoa powder 0.50 cups/units
 corn starch 0.00 teaspoons
-spice 1.00 Tablespoons
+spice 0.00 teaspoons
 baking powder 1.00 Tablespoons
 baking soda 1.00 Tablespoons
 brown sugar 0.00 teaspoons
@@ -22,6 +22,6 @@ syrup 0.00 teaspoons
 powdered sugar 0.00 teaspoons
 oat 0.00 teaspoons
 graham cracker 0.00 teaspoons
-flour 2.00 cups/units
-sugar 2.50 cups/units
-salt 0.50 teaspoons
+flour 2.79 cups/units
+sugar 2.46 cups/units
+salt 1.02 cups/units
