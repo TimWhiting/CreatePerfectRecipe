@@ -134,14 +134,48 @@ class RecipeLearner:
         denormalized = self.sess.run(self.diff,feed_dict=feed_dict)
         print(denormalized)
         #denormalized = self.forward_out.eval(feed_dict, self.sess)[0]
-        #denormalized = self.recipes.deNormalizeRow(self.forward_out.eval(feed_dict, self.sess)[0])
+        denormalized = self.recipes.deNormalizeRow(self.forward_out.eval(feed_dict, self.sess)[0])
         j = 0
         with open(recipename,'w') as writefile:
             for i in range(len(validIngredients)):
                 if validIngredients[i].used:
                     writefile.write("{} {}\n".format(validIngredients[i].name[0],
-                                            getAmount(validIngredients[i],2000 * denormalized[0][j])))
+                                            getAmount(validIngredients[i],2000 * denormalized[j])))
                     j += 1
+
+    def getBestAndWorst(self):
+        bestRating = 0
+        worstRating = 100
+        bestRecipe = None
+        worstRecipe = None
+        for recipe in self.recipes.getRecipes():
+            labels = [0 for i in range(self.output_size)]
+            feed_dict = {self.input:[self.recipes.getNormalizedInputs(recipe.getInputVectorNormalized())],self.output: [labels]}
+            values = self.sess.run(self.diff, feed_dict=feed_dict)[0]
+            rating = values[0]*1 + values[1]*2 + values[2]*3 + values[3]*4 + values[4]*5
+            if rating > bestRating:
+                bestRating = rating
+                bestRecipe = recipe
+            if rating < worstRating:
+                worstRating = rating
+                worstRecipe = recipe
+        print(bestRating)
+        print(worstRating)
+        recipes = [bestRecipe, worstRecipe]
+        names = ["bestrecipe.txt", "worstrecipe.txt"]
+        # denormalized = self.forward_out.eval(feed_dict, self.sess)[0]
+        # denormalized = self.recipes.deNormalizeRow(self.forward_out.eval(feed_dict, self.sess)[0])
+        for i in range(len(recipes)):
+            recipe = recipes[i]
+            name = names[i]
+            j = 0
+            with open(name, 'w') as writefile:
+                for i in range(len(validIngredients)):
+                    if validIngredients[i].used:
+                        if validIngredients[i].used:
+                            writefile.write("{} {}\n".format(validIngredients[i].name[0],
+                                                             getAmount(validIngredients[i],recipe.getInputVector()[j])))
+                            j += 1
 
 def runCSVDataCollection():
     with open('learning.csv', 'w') as csvfile:
@@ -175,6 +209,11 @@ def getRandomRecipe():
     recipeLearner.getOutput([0, 0, 0, 0, 1],"good recipe.txt")
     recipeLearner.getOutput([1,1,1,0,0],"bad recipe.txt")
 
+def getRecipes():
+    recipeLearner = RecipeLearner(2, 50, .1, False, False)
+    recipeLearner.train()
+    recipeLearner.getBestAndWorst()
+
 
 def main():
     # layers = input("How many layers?")
@@ -182,6 +221,7 @@ def main():
     # recipeLearner = RecipeLearner((int)layers, (int)nodes)
     # (error, numepochs) = recipeLearner.train()
     getRandomRecipe()
+    #getRecipes()
     # runCSVDataCollection()
     # runCSVDataInvertedCollection()
 

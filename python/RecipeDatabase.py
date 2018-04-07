@@ -101,7 +101,7 @@ class RecipeDatabase(Database):
     def deNormalizeRow(self, inputRow):
         denormalizedRow = []
         for i in range(0, len(inputRow)):
-            denormalizedRow.append((inputRow * self.columnMultipliers[i][1]) + self.columnMultipliers[i][0])
+            denormalizedRow.append((inputRow[i] * self.columnMultipliers[i][1]) + self.columnMultipliers[i][0])
         return denormalizedRow
     
     def getOutput(self, index):
