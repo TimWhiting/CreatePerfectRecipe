@@ -13,7 +13,7 @@ validIngredients.append(IngredientValue(["vanilla"],True,True,208))
 validIngredients.append(IngredientValue(["vegetables","zucchini","pumpkin"],True,True,200))#not sure
 validIngredients.append(IngredientValue(["extracts","lemon extract","mint extract","mint","lemon"],True,True,200))#not sure
 validIngredients.append(IngredientValue(["food coloring"],True,True,208))
-validIngredients.append(IngredientValue(["fruit","raisin","raspberry","date","orange","cherries","cranberries","strawberries","grape","cherry","preserves","jam","apple"],True,True,200))#not sure
+validIngredients.append(IngredientValue(["fruit","raisin","raspberry","date","orange","cherries","cranberries","strawberries","grape","cherry","preserves","jam","apple", "blueberries", "apricot", "banana"],True,True,200))#not sure
 #dry ingredients
 validIngredients.append(IngredientValue(["nuts","almond","peanut","pecan","walnut","nut"],True,False,100))#not sure
 validIngredients.append(IngredientValue(["mix"],False,False,0))

@@ -54,6 +54,7 @@ class RecipeDatabase(Database):
         self.columnMultipliers = []
         self.normalizedRows = [recipe.getInputVectorNormalized() for recipe in self.getRecipes()]
         self.fullyNormalizedRecipes = []
+        self.allRatings = [recipe.ratings for recipe in self.getRecipes()]
         if len(self.normalizedRows) > 0:
             self.computeColumnMultipliers()
     
@@ -87,3 +88,11 @@ class RecipeDatabase(Database):
         for i in range(0, len(inputRow)):
             denormalizedRow.append((inputRow * self.columnMultipliers[i][1]) + self.columnMultipliers[i][0])
         return denormalizedRow
+    
+    def getOutput(self, index):
+        totalVotes = 0.0
+        votesXratings = 0.0
+        for i in range(0, len(self.allRatings[index])):
+            totalVotes += self.allRatings[index][i]
+            votesXratings += (self.allRatings[index][i] * i)
+        return (votesXratings / totalVotes)
