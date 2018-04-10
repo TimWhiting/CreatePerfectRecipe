@@ -3,7 +3,7 @@ from Units import *
 validIngredients = list()
 validIngredients.append(IngredientValue(["egg"],True,True,60))
 validIngredients.append(IngredientValue(["oil"],True,True,218))
-validIngredients.append(IngredientValue(["water"],False,True,236.59))
+validIngredients.append(IngredientValue(["water"],True,True,236.59))
 validIngredients.append(IngredientValue(["butter","margarine","shortening", "lard"],True,True,227))
 validIngredients.append(IngredientValue(["grains","oats","cornflakes", "granola", "flaxseed", "anise"],True,True,100))#approximately
 validIngredients.append(IngredientValue(["candy", "lollipop", "marshmallows", "caramels", "licorice", "dulce de leche", "toffee"],True,True,200))#not sure on gms/cup for these

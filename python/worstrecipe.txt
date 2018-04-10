@@ -1,27 +1,28 @@
-egg 2.00 cups/units
-oil 0.50 cups/units
-butter 1.75 cups/units
+Recipe Name: Midnight Gingersnaps
+egg 0.00 teaspoons
+oil 0.00 teaspoons
+butter 0.50 cups/units
 grains 0.00 teaspoons
 candy 0.00 teaspoons
 cream cheese 0.00 teaspoons
-milk 1.00 cups/units
-vanilla 3.00 Tablespoons
+milk 0.00 teaspoons
+vanilla 0.00 teaspoons
 vegetables 0.00 teaspoons
 extracts 0.00 teaspoons
 food coloring 0.00 teaspoons
 fruit 0.00 teaspoons
-nuts 0.00 teaspoons
+nuts 1.00 cups/units
 chocolate 0.00 teaspoons
-cocoa powder 0.50 cups/units
+cocoa powder 1.00 Tablespoons
 corn starch 0.00 teaspoons
-spice 0.00 teaspoons
-baking powder 1.00 Tablespoons
-baking soda 1.00 Tablespoons
+spice 2.19 cups/units
+baking powder 0.50 teaspoons
+baking soda 0.00 teaspoons
 brown sugar 0.00 teaspoons
-syrup 0.00 teaspoons
+syrup 0.50 cups/units
 powdered sugar 0.00 teaspoons
 oat 0.00 teaspoons
 graham cracker 0.00 teaspoons
-flour 2.79 cups/units
-sugar 2.46 cups/units
-salt 1.02 cups/units
+flour 1.50 cups/units
+sugar 1.00 Tablespoons
+salt 1.00 cups/units

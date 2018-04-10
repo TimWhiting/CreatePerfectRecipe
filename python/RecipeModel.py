@@ -3,7 +3,9 @@ import numpy as np
 from Recipe import *
 import csv
 from Convert import *
+from random import shuffle,randint
 from RecipeDatabase import *
+from sklearn.model_selection import train_test_split
 
 
 def sigma(x):
@@ -24,13 +26,101 @@ class RecipeLearner:
         self.nodes = n
         self.printBatch = printBatch
         self.learningrate = learningrate
-
-    def train(self):
+        self.recipes = RecipeDatabase()
+        self.recipesList = self.recipes.getRecipes()
         if self.invert:
             print("Learning Inverted")
             size = self.input_size
             self.input_size = self.output_size
             self.output_size = size
+            self.normalizedInputs = [self.recipes.getNormalizedOutputs(recipe.getOutputVector()) for recipe in self.recipesList]
+            self.outputs = [recipe.getInputVectorNormalized() for recipe in self.recipesList]
+        else:
+            self.normalizedInputs = [self.recipes.getNormalizedInputs(recipe.getInputVectorNormalized()) for recipe in self.recipesList]
+            self.outputs = [recipe.getOutputVector() for recipe in self.recipesList]
+        self.trainI,self.testI,self.trainO,self.testO = train_test_split(np.array(self.normalizedInputs),np.array(self.outputs),test_size=.1,random_state=2)
+        self.validIngredientNames = []
+        for ing in validIngredients:
+            if ing.used:
+                self.validIngredientNames.append(ing.name[0].replace(" ","_"))
+        self.trainIn = []
+        self.testIn = []
+        self.trainOut = []
+        self.testOut = []
+        stars = ["1","2","3","4","5"]
+        self.trainIn = {'X':np.asarray(self.trainI)}
+        self.trainOut = np.asarray(self.trainO)
+        #self.trainOut.append({'X': tf.Variable(recipe.astype(np.float32))})
+        #for recipe in self.trainI:
+        #    self.trainIn.append(dict(zip(self.validIngredientNames,tf.Variable(recipe.astype(np.float32)))))
+        #for ratings in self.trainO:
+        #    self.trainOut.append(dict(zip(stars,tf.Variable(ratings.astype(np.float32)))))
+        #for ratings in self.testO:
+        #    self.testOut.append(dict(zip(stars,tf.Variable(ratings.astype(np.float32)))))
+        #for recipe in self.testI:
+        #    self.testIn.append(dict(zip(self.validIngredientNames, tf.Variable(recipe.astype(np.float32)))))
+        #self.trainIn = np.array(self.trainIn)
+        #self.trainOut = np.array(self.trainOut)
+        #self.testIn = np.array(self.testIn)
+        #self.testOut = np.array(self.testOut)
+
+
+    def getInputBatch(self,batchSize = 1):
+        return tf.estimator.inputs.numpy_input_fn(
+            x=self.trainIn,
+            y=self.trainOut,
+            batch_size = batchSize,
+            num_epochs=None,
+            shuffle = True)
+    def getRandomInput(self):
+        return tf.estimator.inputs.numpy_input_fn(
+            x ={'X':self.normalizedInputs[randint(0,len(self.recipesList)-1)].astype(np.float32)},
+            batch_size = 1,
+            num_epochs = None,
+            shuffle = False)
+    def getValidationInput(self,batchSize = 1):
+        return tf.estimator.inputs.numpy_input_fn(
+            x =self.trainIn,
+            y=self.trainOut,
+            batch_size = batchSize,
+            num_epochs = None,
+            shuffle = True)
+    def _train(self):
+        validation_metrics = {"MSE": tf.metrics.mean_squared_error}
+        test_config = tf.estimator.RunConfig(save_checkpoints_secs=None,save_checkpoints_steps=1000)
+        #features = [tf.feature_column.numeric_column(ing,shape=(1,)) for ing in self.validIngredientNames]
+        features = [tf.feature_column.numeric_column("X",(self.input_size,))]
+        regressor = tf.estimator.DNNRegressor(feature_columns=features,
+                                               hidden_units=[self.nodes for i in range(self.layers)],
+                                               label_dimension = self.output_size,
+                                               optimizer = tf.train.GradientDescentOptimizer(.1),
+                                               model_dir="training",
+                                               config = test_config)
+        numNoChange = 0
+        diff = 1
+        i = 0
+        continueRunning = True
+        lastmse = 0
+        while continueRunning:
+            regressor.train(input_fn=self.getInputBatch(batchSize=1))
+            print("finished_training")
+            eval_dict = regressor.evaluate(input_fn=self.getValidationInput(batchSize=1))
+            mse = eval_dict['MSE']
+            print("Epoch {}, {0.5f} MSE".format(i,eval_dict['MSE']))
+           # y_pred = regressor.predict(self.getRandomInput())
+            diff = abs(mse-lastmse)
+            lastmse = mse
+            print(mse)
+            i += 1
+            if diff < 0.001:
+                numNoChange += 1
+            if numNoChange > 10:
+                continueRunning = False
+
+
+    def train(self):
+        #self._train()
+        #return
         self.input = tf.placeholder(tf.float32, [None, self.input_size])
         self.output = tf.placeholder(tf.float32, [None, self.output_size])
         # Setup weights and layers
@@ -43,15 +133,16 @@ class RecipeLearner:
                 self.weights.append(tf.Variable(tf.truncated_normal([self.nodes, self.nodes])))
         self.w_out = tf.Variable(tf.truncated_normal([self.nodes, self.output_size]))
         layer_out = tf.Variable(tf.truncated_normal([1, self.output_size]))
-
+        z0 = []
+        forward = []
         # Run forward step
-        z0 = tf.add(tf.matmul(self.input, self.w_in), layers[0])
+        z0.append(tf.add(tf.matmul(self.input, self.w_in), layers[0]))
         for i in range(self.layers):
-            forward = sigma(z0)
+            forward.append(tf.nn.relu(z0[i]))
             if i != self.layers - 1:
-                z0 = tf.add(tf.matmul(layers[i], self.weights[i]), layers[i + 1])
-        self.z_out = tf.add(tf.matmul(forward, self.w_out), layer_out)
-        self.forward_out = sigma(self.z_out)
+                z0.append(tf.add(tf.matmul(layers[i], self.weights[i]), layers[i + 1]))
+        self.z_out = tf.add(tf.matmul(forward[self.layers-1], self.w_out), layer_out)
+        self.forward_out = tf.nn.relu(self.z_out)
 
         # Back propagate
         self.diff = tf.subtract(self.forward_out, self.output)
@@ -63,13 +154,14 @@ class RecipeLearner:
         self.sess = tf.InteractiveSession()
         self.sess.run(tf.global_variables_initializer())
 
-        self.recipes = RecipeDatabase()
+
         last_loss = 1
         diff = 1
         i = 0
         numNoChange = 0
         # for i in range(10):
         continueRunning = True
+        self.recipesList = self.recipes.getRecipes()
         while continueRunning:
             current_sum = 0
             count = 0
@@ -77,7 +169,8 @@ class RecipeLearner:
             batch_count = 0
             feature_batch = []
             label_batch = []
-            for recipe in self.recipes.getRecipes():
+            shuffle(self.recipesList)
+            for recipe in self.recipesList:
                 if batch_count >= batch_size:
                     feed_dict = {self.input: feature_batch, self.output: label_batch}
                     self.sess.run(self.step, feed_dict=feed_dict)
@@ -131,7 +224,7 @@ class RecipeLearner:
     def getOutput(self, inputs,recipename):
         labels = [0 for i in range(self.output_size)]
         feed_dict = {self.input: [inputs],self.output : [labels]}
-        denormalized = self.sess.run(self.diff,feed_dict=feed_dict)
+        denormalized = self.diff.eval(feed_dict=feed_dict)
         print(denormalized)
         #denormalized = self.forward_out.eval(feed_dict, self.sess)[0]
         denormalized = self.recipes.deNormalizeRow(self.forward_out.eval(feed_dict, self.sess)[0])
@@ -151,8 +244,9 @@ class RecipeLearner:
         for recipe in self.recipes.getRecipes():
             labels = [0 for i in range(self.output_size)]
             feed_dict = {self.input:[self.recipes.getNormalizedInputs(recipe.getInputVectorNormalized())],self.output: [labels]}
-            values = self.sess.run(self.diff, feed_dict=feed_dict)[0]
-            values = recipe.getOutputVector()
+            values = self.diff.eval(feed_dict=feed_dict)[0]
+            #values = recipe.getOutputVector()
+            print(values)
             rating = values[0]*1 + values[1]*2 + values[2]*3 + values[3]*4 + values[4]*5
             if rating > bestRating:
                 bestRating = rating
@@ -165,12 +259,13 @@ class RecipeLearner:
         recipes = [bestRecipe, worstRecipe]
         names = ["bestrecipe.txt", "worstrecipe.txt"]
         # denormalized = self.forward_out.eval(feed_dict, self.sess)[0]
-        # denormalized = self.recipes.deNormalizeRow(self.forward_out.eval(feed_dict, self.sess)[0])
+        #denormalized = self.recipes.deNormalizeRow(self.forward_out.eval(feed_dict, self.sess)[0])
         for i in range(len(recipes)):
             recipe = recipes[i]
             name = names[i]
             j = 0
             with open(name, 'w') as writefile:
+                writefile.write("Recipe Name: {}\n".format(recipe.name))
                 for i in range(len(validIngredients)):
                     if validIngredients[i].used:
                         if validIngredients[i].used:
@@ -211,7 +306,7 @@ def getRandomRecipe():
     recipeLearner.getOutput([1,1,1,0,0],"bad recipe.txt")
 
 def getRecipes():
-    recipeLearner = RecipeLearner(2, 50, .1, False, False)
+    recipeLearner = RecipeLearner(1, 50, .1, False, False)
     recipeLearner.train()
     recipeLearner.getBestAndWorst()
 
@@ -221,8 +316,8 @@ def main():
     # nodes = input("How many nodes per layer?")
     # recipeLearner = RecipeLearner((int)layers, (int)nodes)
     # (error, numepochs) = recipeLearner.train()
-    #getRandomRecipe()
-    getRecipes()
+    getRandomRecipe()
+    #getRecipes()
     # runCSVDataCollection()
     # runCSVDataInvertedCollection()
 
